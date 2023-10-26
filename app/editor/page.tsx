@@ -1,22 +1,26 @@
-"use client";
-
-import { useEffect } from "react";
+import dynamic from "next/dynamic";
+import { read } from "to-vfile";
+import { remark } from "remark";
+import remarkMdx from "remark-mdx";
+import remarkFrontmatter from "remark-frontmatter";
 import { getServerSession } from "next-auth/next";
-import { GET } from "@/app/api/auth/[...nextauth]/route";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function Home() {
-  const { data: session } = useSession();
+const EditorComp = dynamic(() => import("./EditorComponent"), { ssr: false });
+
+export default async function Home() {
+  const session = await getServerSession(authOptions);
   const user = session?.user;
 
-  useEffect(() => {
-    const getUserRepos = async () => {
-      const repos = await fetch(`https://api.github.com/users/erikcr/repos`);
-      console.log(repos);
-    };
-
-    getUserRepos();
-  }, []);
+  // const markdown = await remark()
+  //   .use(remarkMdx)
+  //   .use(remarkFrontmatter, ["yaml", "toml"])
+  //   .process(
+  //     await read(
+  //       "content/commonalities-of-five-solutions-engineer-consultant-roles.md"
+  //     )
+  //   );
 
   return (
     <div className="min-h-screen bg-red-100 flex flex-col">
@@ -63,8 +67,6 @@ export default function Home() {
       </aside>
 
       <main className="sm:ml-64">
-        Editor pane
-        {JSON.stringify(session)}
         {/* <EditorComp markdown={String(markdown.value)} /> */}
       </main>
     </div>
