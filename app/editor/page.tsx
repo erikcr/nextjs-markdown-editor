@@ -7,9 +7,10 @@ import { getServerSession } from "next-auth/next";
 import { signIn, signOut } from "next-auth/react";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const EditorComp = dynamic(() => import("./EditorComponent"), { ssr: false });
 
-export default async function Home() {
+const EditorComp = dynamic(() => import("../EditorComponent"), { ssr: false });
+
+export default async function Editor() {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 
