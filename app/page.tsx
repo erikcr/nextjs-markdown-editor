@@ -4,6 +4,7 @@ import { remark } from "remark";
 import remarkMdx from "remark-mdx";
 import remarkFrontmatter from "remark-frontmatter";
 import { ForwardRefEditor } from "./ForwardRefEditor";
+import { Sidebar } from "./Sidebar";
 
 export default async function Home() {
   const markdown = await remark()
@@ -17,11 +18,7 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col">
-      <aside
-        id="default-sidebar"
-        className="fixed top-0 left-0 w-64 h-screen bg-gray-100 transition-transform -translate-x-full sm:translate-x-0"
-        aria-label="Sidebar"
-      ></aside>
+      <Sidebar />
 
       <main className="sm:ml-64">
         <Suspense fallback={null}>
