@@ -33,6 +33,7 @@
     "remark-toc": "^9.0.0",
     "retext-english": "^5.0.0",
     "retext-equality": "^7.0.0",
+    "supports-color": "8.1.1",
     "to-vfile": "^8.0.0",
     "unified": "^11.0.3",
     "vfile": "^6.0.1",
