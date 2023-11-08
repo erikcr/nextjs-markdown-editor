@@ -9,23 +9,16 @@ export function Sidebar() {
   const [activeFile, setActiveFile] = useState("");
 
   useEffect(() => {
-    const files = JSON.parse(localStorage.getItem("file-names"));
-    if (files) {
-      setActiveFile(files[0]);
-      setFileNames(files);
-    }
+    setFileNames(JSON.parse(localStorage.getItem("file-names")));
+    setActiveFile(JSON.parse(localStorage.getItem("active-file")));
   }, []);
 
-  useEffect(() => {
-    if (fileNames.length != 0) {
-      localStorage.setItem("file-names", JSON.stringify(fileNames));
-    }
-  }, [fileNames]);
-
   const addNewFile = () => {
-    setFileNames((prevState) => [...prevState, newFileName]);
+    const newFiles = [...fileNames, newFileName];
+    setFileNames(newFiles);
     setActiveFile(newFileName);
     setNewFileName("");
+    localStorage.setItem("file-names", JSON.stringify(newFiles));
   };
 
   return (
@@ -57,9 +50,17 @@ export function Sidebar() {
         />
       </div>
 
-      <div className="px-2 flex flex-col space-y-1">
+      <div className="flex flex-col space-y-1">
         {fileNames.map((item) => (
-          <p className={"bg-gray-400"}>{item}</p>
+          <p
+            className={"px-2 " + (activeFile === item ? "bg-gray-400" : "")}
+            onClick={() => {
+              setActiveFile(item);
+              localStorage.setItem("active-file", JSON.stringify(item));
+            }}
+          >
+            {item}
+          </p>
         ))}
       </div>
     </aside>
