@@ -1,20 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 export function Sidebar() {
   const router = useRouter();
 
-  const [fileNames, setFileNames] = useState<Array<string>>([]);
-  const [activeFile, setActiveFile] = useState("");
+  const [fileNames, setFileNames] = useState<string[]>([]);
+  const [activeFile, setActiveFile] = useState<string | null>(null);
   const [newFileName, setNewFileName] = useState("");
 
   useEffect(() => {
-    if (localStorage.getItem("file-names")) {
-      setFileNames(JSON.parse(localStorage.getItem("file-names")));
-    }
+    setFileNames(JSON.parse(localStorage.getItem("file-names") || ""));
+
     setActiveFile(localStorage.getItem("active-file"));
   }, []);
 
