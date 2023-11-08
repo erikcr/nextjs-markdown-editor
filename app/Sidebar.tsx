@@ -1,24 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PlusIcon } from "@heroicons/react/24/outline";
 
 export function Sidebar() {
-  const [newFileName, setNewFileName] = useState("");
+  const router = useRouter();
+
   const [fileNames, setFileNames] = useState<Array<string>>([]);
   const [activeFile, setActiveFile] = useState("");
+  const [newFileName, setNewFileName] = useState("");
 
   useEffect(() => {
-    setFileNames(JSON.parse(localStorage.getItem("file-names")));
+    if (localStorage.getItem("file-names")) {
+      setFileNames(JSON.parse(localStorage.getItem("file-names")));
+    }
     setActiveFile(JSON.parse(localStorage.getItem("active-file")));
   }, []);
 
   const addNewFile = () => {
-    const newFiles = [...fileNames, newFileName];
-    setFileNames(newFiles);
-    setActiveFile(newFileName);
-    setNewFileName("");
-    localStorage.setItem("file-names", JSON.stringify(newFiles));
+    if (newFileName != "") {
+      const newFiles = [...fileNames, newFileName];
+      setFileNames(newFiles);
+      setActiveFile(newFileName);
+      setNewFileName("");
+      localStorage.setItem("file-names", JSON.stringify(newFiles));
+      localStorage.setItem("active-file", newFileName);
+      localStorage.setItem(newFileName, "");
+      router.push(`/?f=${newFileName}`);
+    }
   };
 
   return (
@@ -51,17 +61,20 @@ export function Sidebar() {
       </div>
 
       <div className="flex flex-col space-y-1">
-        {fileNames.map((item) => (
-          <p
-            className={"px-2 " + (activeFile === item ? "bg-gray-400" : "")}
-            onClick={() => {
-              setActiveFile(item);
-              localStorage.setItem("active-file", JSON.stringify(item));
-            }}
-          >
-            {item}
-          </p>
-        ))}
+        {fileNames &&
+          fileNames.map((item, index) => (
+            <p
+              key={index}
+              className={"px-2 " + (activeFile === item ? "bg-gray-400" : "")}
+              onClick={() => {
+                setActiveFile(item);
+                localStorage.setItem("active-file", JSON.stringify(item));
+                router.push(`/?f=${item}`);
+              }}
+            >
+              {item}
+            </p>
+          ))}
       </div>
     </aside>
   );
