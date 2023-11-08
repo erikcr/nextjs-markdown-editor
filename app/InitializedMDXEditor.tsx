@@ -62,7 +62,6 @@ export default function InitializedMDXEditor({
           tablePlugin(),
           diffSourcePlugin({
             diffMarkdown: originalMarkdown,
-            viewMode: "source",
           }),
           toolbarPlugin({
             toolbarContents: () => (

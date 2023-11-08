@@ -15,7 +15,7 @@ export function Sidebar() {
     if (localStorage.getItem("file-names")) {
       setFileNames(JSON.parse(localStorage.getItem("file-names")));
     }
-    setActiveFile(JSON.parse(localStorage.getItem("active-file")));
+    setActiveFile(localStorage.getItem("active-file"));
   }, []);
 
   const addNewFile = () => {
@@ -26,7 +26,7 @@ export function Sidebar() {
       setNewFileName("");
       localStorage.setItem("file-names", JSON.stringify(newFiles));
       localStorage.setItem("active-file", newFileName);
-      localStorage.setItem(newFileName, "");
+      localStorage.setItem(newFileName, `# ${newFileName}`);
       router.push(`/?f=${newFileName}`);
     }
   };
