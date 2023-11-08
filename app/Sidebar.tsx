@@ -12,7 +12,7 @@ export function Sidebar() {
   const [newFileName, setNewFileName] = useState("");
 
   useEffect(() => {
-    setFileNames(JSON.parse(localStorage.getItem("file-names") || ""));
+    setFileNames(JSON.parse(localStorage.getItem("file-names") || "[]"));
 
     setActiveFile(localStorage.getItem("active-file"));
   }, []);
